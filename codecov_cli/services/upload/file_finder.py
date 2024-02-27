@@ -229,6 +229,7 @@ class FileFinder(object):
             extra=dict(
                 extra_log_attributes=dict(regex_patterns_to_exclude=regex_patterns_to_exclude),
             )
+        )
         user_filenames_to_include = []
         files_excluded_but_user_includes = []
         for file in self.explicitly_listed_files:
@@ -237,6 +238,7 @@ class FileFinder(object):
                 extra=dict(
                     extra_log_attributes=dict(file=file),
                 )
+            )
             user_filenames_to_include.append(file.name)
             if regex_patterns_to_exclude.match(file.name):
                 files_excluded_but_user_includes.append(str(file))
@@ -245,6 +247,7 @@ class FileFinder(object):
             extra=dict(
                 extra_log_attributes=dict(files_excluded_but_user_includes=files_excluded_but_user_includes),
             )
+        )
         if files_excluded_but_user_includes:
             logger.warning(
                 "Some files being explicitly added are found in the list of excluded files for upload.",
@@ -258,6 +261,7 @@ class FileFinder(object):
             extra=dict(
                 extra_log_attributes=dict(regex_patterns_to_include=regex_patterns_to_include),
             )
+        )
         multipart_include_regex = globs_to_regex(
             [str(path.resolve()) for path in self.explicitly_listed_files]
         )
@@ -266,6 +270,7 @@ class FileFinder(object):
             extra=dict(
                 extra_log_attributes=dict(multipart_include_regex=multipart_include_regex),
             )
+        )
         user_files_paths = list(
             search_files(
                 self.project_root,
@@ -280,6 +285,7 @@ class FileFinder(object):
             extra=dict(
                 extra_log_attributes=dict(user_files_paths=user_files_paths),
             )
+        )
         not_found_files = []
         for filepath in self.explicitly_listed_files:
             logger.info(
@@ -287,6 +293,7 @@ class FileFinder(object):
                 extra=dict(
                     extra_log_attributes=dict(filepath=filepath.resolve()),
                 )
+            )
             if filepath.resolve() not in user_files_paths:
                 not_found_files.append(filepath)
 
