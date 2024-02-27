@@ -274,7 +274,7 @@ class FileFinder(object):
         user_files_paths = list(
             search_files(
                 self.project_root,
-                default_folders_to_ignore + self.folders_to_ignore,
+                self.folders_to_ignore,
                 filename_include_regex=regex_patterns_to_include,
                 filename_exclude_regex=regex_patterns_to_exclude,
                 multipart_include_regex=multipart_include_regex,
