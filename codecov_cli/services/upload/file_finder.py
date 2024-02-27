@@ -224,12 +224,27 @@ class FileFinder(object):
         return list(set(result_files + user_result_files))
 
     def get_user_specified_files(self, regex_patterns_to_exclude):
+        logger.info(
+            "regex_patterns_to_exclude",
+            extra=dict(
+                extra_log_attributes=dict(regex_patterns_to_exclude=regex_patterns_to_exclude),
+            )
         user_filenames_to_include = []
         files_excluded_but_user_includes = []
         for file in self.explicitly_listed_files:
+            logger.info(
+                "file",
+                extra=dict(
+                    extra_log_attributes=dict(file=file),
+                )
             user_filenames_to_include.append(file.name)
             if regex_patterns_to_exclude.match(file.name):
                 files_excluded_but_user_includes.append(str(file))
+        logger.info(
+            "files_excluded_but_user_includes",
+            extra=dict(
+                extra_log_attributes=dict(files_excluded_but_user_includes=files_excluded_but_user_includes),
+            )
         if files_excluded_but_user_includes:
             logger.warning(
                 "Some files being explicitly added are found in the list of excluded files for upload.",
@@ -238,9 +253,19 @@ class FileFinder(object):
                 ),
             )
         regex_patterns_to_include = globs_to_regex(user_filenames_to_include)
+        logger.info(
+            "regex_patterns_to_include",
+            extra=dict(
+                extra_log_attributes=dict(regex_patterns_to_include=regex_patterns_to_include),
+            )
         multipart_include_regex = globs_to_regex(
             [str(path.resolve()) for path in self.explicitly_listed_files]
         )
+        logger.info(
+            "multipart_include_regex",
+            extra=dict(
+                extra_log_attributes=dict(multipart_include_regex=multipart_include_regex),
+            )
         user_files_paths = list(
             search_files(
                 self.project_root,
@@ -250,8 +275,18 @@ class FileFinder(object):
                 multipart_include_regex=multipart_include_regex,
             )
         )
+        logger.info(
+            "user_files_paths",
+            extra=dict(
+                extra_log_attributes=dict(user_files_paths=user_files_paths),
+            )
         not_found_files = []
         for filepath in self.explicitly_listed_files:
+            logger.info(
+                "filepath.resolve()",
+                extra=dict(
+                    extra_log_attributes=dict(filepath=filepath.resolve()),
+                )
             if filepath.resolve() not in user_files_paths:
                 not_found_files.append(filepath)
 
