@@ -287,6 +287,7 @@ class FileFinder(object):
             )
         )
         not_found_files = []
+        user_files_paths_resolved = [path.resolve() for path in user_files_paths]
         for filepath in self.explicitly_listed_files:
             logger.info(
                 "filepath",
@@ -306,7 +307,7 @@ class FileFinder(object):
                     extra_log_attributes=dict(user_files_paths=user_files_paths),
                 )
             )
-            if filepath.resolve() not in user_files_paths:
+            if filepath.resolve() not in user_files_paths_resolved:
                 not_found_files.append(filepath)
 
         if not_found_files:
