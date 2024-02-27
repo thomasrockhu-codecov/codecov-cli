@@ -301,9 +301,9 @@ class FileFinder(object):
                 )
             )
             logger.info(
-                "user_file_paths",
+                "user_files_paths",
                 extra=dict(
-                    extra_log_attributes=dict(user_file_paths=user_file_paths),
+                    extra_log_attributes=dict(user_files_paths=user_files_paths),
                 )
             )
             if filepath.resolve() not in user_files_paths:
